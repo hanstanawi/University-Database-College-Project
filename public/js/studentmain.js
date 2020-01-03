@@ -17,6 +17,13 @@ $(document).ready(function(){
         }
     });
 
+    $("#student-search-button").on('click', function(){
+        var str = $('#student-search-input').val();
+        var url = '/students/search/'+str;
+        window.location.href = url;
+      
+    });
+
     $('.edit').on('click', function(){
         $('#edit-form-name').val($(this).data('name'));
         $('#edit-form-bdate').val($(this).data('bdate'));

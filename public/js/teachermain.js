@@ -17,42 +17,43 @@ $(document).ready(function(){
         }
     });
 
-    $("#myBtn").click(function(){
-        var str = $("#myInput").val();
-        var url = '/teachers/'+ str;
-        if(confirm('Search Record?')){
-            $.ajax({
-                url: url,
-                success: function(result){
-                    console.log('Searching');
-                    window.location.href='/teachers/';
-                },
-                error: function(err){
-                    console.log(err);
-                }
-            });
-        }
-    });
+    // // $("#myBtn").click(function(){
+    // //     var str = $("#myInput").val();
+    // //     var url = '/teachers/search/'+ str;
+    // //     if(confirm('Search Record?')){
+    // //         $.ajax({
+    // //             type:'GET',
+    // //             url: url,
+    // //             success: function(result){
+    // //                 console.log('Searching');
+    // //                 window.location.href='/teachers/search/';
+    // //             },
+    // //             error: function(err){
+    // //                 console.log(err);
+    // //             }
+    // //         });
+    // //     }
+    // });
   
 
-    // $(".search").on('click', function(){
-    //     // var id = $(this).data('id');
-    //     var id = $('#name-search').val();
-    //     var url = '/teachers/'+id;
-    //     if(confirm('Delete Record?')){
-    //         $.ajax({
-    //             url: url,
-    //             type: 'GET',
-    //             success: function(result){
-    //                 console.log('Searching');
-                    
-    //             },
-    //             error: function(err){
-    //                 console.log(err);
-    //             }
-    //         });
-    //     }
-    // });
+    $("#teacher-search-button").on('click', function(){
+        // var id = $(this).data('id');
+        var str = $('#teacher-search-input').val();
+        var url = '/teachers/search/'+str;
+        window.location.href = url;
+        // if(confirm('Search Record?')){
+        //     $.ajax({
+        //         url: url,
+        //         success: function(result){
+        //             console.log('Searching');
+        //             window.location.href=url;
+        //         },
+        //         error: function(err){
+        //             console.log(err);
+        //         }
+        //     });
+        // }
+    });
 
 
 

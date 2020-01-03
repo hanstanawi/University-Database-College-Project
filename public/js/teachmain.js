@@ -1,14 +1,14 @@
 $(document).ready(function(){
     $(".delete-record").on('click', function(){
         var id = $(this).data('id');
-        var url = '/dept/delete/'+id;
+        var url = '/teaches/delete/'+id;
         if(confirm('Delete Record?')){
             $.ajax({
                 url: url,
                 type: 'DELETE',
                 success: function(result){
                     console.log('Deleting Record');
-                    window.location.href='/dept';
+                    window.location.href='/teaches';
                 },
                 error: function(err){
                     console.log(err);
@@ -18,10 +18,9 @@ $(document).ready(function(){
     });
 
     $('.edit').on('click', function(){
-        $('#edit-form-name').val($(this).data('name'));
-        $('#edit-form-chairname').val($(this).data('chairname'));
-        $('#edit-form-date').val($(this).data('date'));
-        $('#edit-form-location').val($(this).data('location'));
-        $('#edit-form-id').val($(this).data('id'));
+        $('#edit-form-course_id').val($(this).data('course_id'));
+        $('#edit-form-teacher_name').val($(this).data('teacher_name'));
+        $('#edit-form-course_name').val($(this).data('course_name'));
+        $('#edit-form-teacher_id').val($(this).data('teacher_id'));
     });
 });
