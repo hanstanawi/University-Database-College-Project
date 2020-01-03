@@ -1,10 +1,17 @@
 body{
     background:#f9f9f9;
     font-size: 13.5px;
+    font-family: Roboto;
 }
 
 table{
     width: 50%;
+}
+
+
+
+h4{
+    font-family:Lato;
 }
 
 img{
@@ -17,6 +24,8 @@ img{
 
 #mainNavbar .nav-link{
     color: white;
+    font-family: Lato;
+    font-size:12px;
 }
 
 #mainNavbar .nav-link:hover {
@@ -25,8 +34,9 @@ img{
 
 #mainNavbar .navbar-brand{
     color: white;
-    font-size: 1.5 rem;
+    font-size: 1.2 rem;
     font-weight: 100;
+    font-family: Lato;
 }
 
 thead{
@@ -34,3 +44,57 @@ thead{
     color: white;
 }
 
+.bottom-right { 
+    bottom: 0; 
+    right: 0; 
+} 
+
+.btn-circle.btn-md { 
+    width: 50px; 
+    height: 50px; 
+    padding: 7px 10px; 
+    border-radius: 25px; 
+    font-size: 18px; 
+    text-align: center; 
+} 
+
+#addbutton {
+    position: fixed;
+    bottom: 40px;
+    right: 50px; 
+}
+
+.form-control-underlined {
+    border-width: 0;
+    border-bottom-width: 1px;
+    border-radius: 0;
+    padding-left: 0;
+    width:20%;
+    position:absolute;
+    top:40px;
+    right:25px;
+}
+
+::placeholder{
+    size:13px;
+    font-family:Roboto;
+    position: absolute;
+    left: 20px;
+    top: 0px
+}
+
+.search-button{
+    position: absolute;
+    right: 20px;
+    top: 50px;
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+}
+
+.fa .fa-search{
+    color:#0876d1;
+}
