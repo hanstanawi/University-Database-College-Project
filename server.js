@@ -15,8 +15,6 @@ const config = {
 
 const pool = new pg.Pool(config);
 
-
-
 // const connect = "postgres://hanstanawi:188188@localhost/university"
 
 app.engine('dust', cons.dust);
@@ -30,6 +28,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', function(req, res){
+    res.render('homelayout');
+});
+
+app.get('/dept', function(req, res){
     pool.connect(function(err, client, done){
         if(err) {
             return console.error("error", err);
@@ -44,7 +46,7 @@ app.get('/', function(req, res){
     });
 });
 
-app.post('/add', function(req, res){
+app.post('/dept/add', function(req, res){
     pool.connect(function(err, client, done){
         if(err) {
             return console.error("error", err);
@@ -53,11 +55,11 @@ app.post('/add', function(req, res){
         [req.body.id, req.body.name, req.body.chairname, req.body.date, req.body.location]);
 
         done();
-        res.redirect('/');
+        res.redirect('/dept');
     });
 });
 
-app.delete('/delete/:id', function(req, res){
+app.delete('/dept/delete/:id', function(req, res){
     pool.connect(function(err, client, done){
         if(err) {
             return console.error("error", err);
@@ -70,7 +72,7 @@ app.delete('/delete/:id', function(req, res){
     });
 });
 
-app.post('/edit', function(req, res){
+app.post('/dept/edit', function(req, res){
     pool.connect(function(err, client, done){
         if(err) {
             return console.error("error", err);
@@ -79,7 +81,7 @@ app.post('/edit', function(req, res){
             [req.body.name, req.body.chairname, req.body.date, req.body.location, req.body.id]);
 
         done();
-        res.redirect('/');
+        res.redirect('/dept');
     });
 });
 
@@ -157,38 +159,30 @@ app.get('/teachers', function(req, res){
     });
 });
 
-// app.get('/teachers/:str', (req,res)=>{
-//     let namesearch = req.params.str;
-//     pool.connect((err, client, done) => {
-//         if (err) throw err
-//         client.query('SELECT * FROM teachers WHERE name = $1', ['namesearch'], (err, result) => {
-          
-//           if (err) {
-//             console.log(err.stack)
-//           } else {
-//             res.render('teacherindex', {teachers: result.rows});
-//             done();
-//           }
-//         })
-//       })
-// })
-
 
 app.get('/teachers/search/:str', function(req, res){
     var namesearch = req.params.str;
     pool.connect(function(err, client, done){
         if(err) {
-            return console.error("error", err);
+            console.error("error", err);
+            res.status(500).send("Error");
         }
-        client.query('SELECT * FROM teachers WHERE name = $1', [namesearch], function(err, result){
-            
-            if(err){
-                return console.error('error running query', err)
-            }
-            res.render('teacherindex', {teachers: result.rows});
-            done();
-            res.sendStatus(500);
-        });
+        else{
+            client.query('SELECT * FROM teachers WHERE LOWER(name) like LOWER($1)', [`%${namesearch}%`], function(err, result){
+                if(err){
+                    console.error('error running query', err);
+                    res.status(500).send("Error running query");
+                }
+                if(result.rows.length > 0){
+                    res.render('teacherindex', {teachers: result.rows});
+                }
+                else{
+                    res.render('teacherindex', {teachers: [{ssn: "No Results Found"}]});
+                }
+                done();
+            });
+        }
+        
     });
 });
 
@@ -232,37 +226,6 @@ app.post('/teachers/edit', function(req, res){
     });
 });
 
-app.get('/teachers/:id', function(req, res){
-    pool.connect(function(err, client, done){
-        if(err) {
-            return console.error("error", err);
-        }
-        client.query("SELECT FROM teachers WHERE ssn = $1", [req.params.id], function(err, result){
-            if(err){
-                return console.error('error running query', err)
-            }
-            res.render('teacherindex', {teachers: result.rows});
-            // res.send(result);
-            done();
-        }); 
-    });
-});
-
-// app.get('/teachers/searchresult', function(req, res){
-//     pool.connect(function(err, client, done){
-//         if(err) {
-//             return console.error("error", err);
-//         }
-//         client.query('SELECT * FROM teachers WHERE name= $1',[req.params.name-search], function(err, result){
-//             if(err){
-//                 return console.error('error running query', err)
-//             }
-//             res.render('teachersearchindex', {teachers: result.rows});
-//             done();
-//         });
-//     });
-// });
-
 
 
 //students
@@ -278,6 +241,32 @@ app.get('/students/', function(req, res){
             res.render('studentindex', {students: result.rows});
             done();
         });
+    });
+});
+
+app.get('/students/search/:str', function(req, res){
+    var namesearch = req.params.str;
+    pool.connect(function(err, client, done){
+        if(err) {
+            console.error("error", err);
+            res.status(500).send("Error");
+        }
+        else{
+            client.query('SELECT * FROM students WHERE LOWER(name) like LOWER($1)', [`%${namesearch}%`], function(err, result){
+                if(err){
+                    console.error('error running query', err);
+                    res.status(500).send("Error running query");
+                }
+                if(result.rows.length > 0){
+                    res.render('studentindex', {students: result.rows});
+                }
+                else{
+                    res.render('studentindex', {students: [{ssn: "No Results Found"}]});
+                }
+                done();
+            });
+        }
+        
     });
 });
 
@@ -320,9 +309,113 @@ app.post('/students/edit', function(req, res){
     });
 });
 
+app.get('/takes', function(req, res){
+    pool.connect(function(err, client, done){
+        if(err) {
+            return console.error("error", err);
+        }
+        client.query('SELECT * FROM takes', function(err, result){
+            if(err){
+                return console.error('error running query', err)
+            }
+            res.render('takeindex', {takes: result.rows});
+            done();
+        });
+    });
+});
 
+app.post('/takes/add', function(req, res){
+    pool.connect(function(err, client, done){
+        if(err) {
+            return console.error("error", err);
+        }
+        client.query("INSERT INTO takes (sid, course_id, student_name, course_name) VALUES($1, $2, $3, $4)",
+        [req.body.sid, req.body.course_id, req.body.student_name, req.body.course_name]);
 
+        done();
+        res.redirect('/takes');
+    });
+});
 
+app.post('/takes/edit', function(req, res){
+    pool.connect(function(err, client, done){
+        if(err) {
+            return console.error("error", err);
+        }
+        client.query("UPDATE takes SET student_name = $1, course_name=$2 WHERE sid = $3 AND course_id = $4",
+            [req.body.student_name, req.body.course_name, req.body.sid, req.body.course_id]);
+
+        done();
+        res.redirect('/takes');
+    });
+});
+
+app.delete('/takes/delete/:id', function(req, res){
+    pool.connect(function(err, client, done){
+        if(err) {
+            return console.error("error", err);
+        }
+        client.query("DELETE FROM takes WHERE sid = $1",
+            [req.params.id]);
+
+        done();
+        res.sendStatus(200);
+    });
+});
+
+app.get('/teaches', function(req, res){
+    pool.connect(function(err, client, done){
+        if(err) {
+            return console.error("error", err);
+        }
+        client.query('SELECT * FROM teaches', function(err, result){
+            if(err){
+                return console.error('error running query', err)
+            }
+            res.render('teachindex', {teaches: result.rows});
+            done();
+        });
+    });
+});
+
+app.post('/teaches/add', function(req, res){
+    pool.connect(function(err, client, done){
+        if(err) {
+            return console.error("error", err);
+        }
+        client.query("INSERT INTO teaches (teacher_id, course_id, teacher_name, course_name) VALUES($1, $2, $3, $4)",
+        [req.body.teacher_id, req.body.course_id, req.body.teacher_name, req.body.course_name]);
+
+        done();
+        res.redirect('/teaches');
+    });
+});
+
+app.post('/teaches/edit', function(req, res){
+    pool.connect(function(err, client, done){
+        if(err) {
+            return console.error("error", err);
+        }
+        client.query("UPDATE teaches SET teacher_name = $1, course_name=$2 WHERE teacher_id = $3 AND course_id = $4",
+            [req.body.teacher_name, req.body.course_name, req.body.teacher_id, req.body.course_id]);
+
+        done();
+        res.redirect('/teaches');
+    });
+});
+
+app.delete('/teaches/delete/:id', function(req, res){
+    pool.connect(function(err, client, done){
+        if(err) {
+            return console.error("error", err);
+        }
+        client.query("DELETE FROM teaches WHERE teacher_id = $1",
+            [req.params.id]);
+
+        done();
+        res.sendStatus(200);
+    });
+});
 
 
 app.listen(3000, function(){
