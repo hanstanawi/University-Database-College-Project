@@ -2,16 +2,14 @@
 
 {<body}
 <br>
-<div class="d-flex mb-auto">
-    <div class="align-self-end ml-auto">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formModal">
-            <i class="far fa-plus-square"></i>
-        </button>
-    </div>
-    
-</div>
+
 
 <br>
+
+<button type="button" class="btn btn-primary btn-circle btn-md" id="addbutton" data-toggle="modal" data-target="#formModal">
+    <i class="fas fa-plus"></i>
+</button>
+<h4>Courses</h4>
 <table class="table table-hover">
         <thead>
             <tr>

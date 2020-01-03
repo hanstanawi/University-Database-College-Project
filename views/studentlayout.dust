@@ -4,31 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
     <title>Students Database</title>
     <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 </head>
 <body>
-        <nav id="mainNavbar" class="navbar navbar-light navbar-expand-md py-0 fixed-top">
+       <nav id="mainNavbar" class="navbar navbar-light navbar-expand-md py-0 fixed-top">
         <div class="container">
-            <a href="#" class="navbar-brand">FAKE UNIVERSITY</a>
+            <a href="/" class="navbar-brand">FAKE UNIVERSITY</a>
         <button class="navbar-toggler" data-toggle="collapse" data-target="#navLinks" aria-label="Toggle Navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navLinks">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a href="/" class="nav-link">DEPARTMENTS</a>
+                    <a href="/dept" class="nav-link">DEPARTMENTS</a>
                 </li>
                 <li class="nav-item">
                     <a href="/course" class="nav-link">COURSES</a>
                 </li>
-                <li class="nav-item">
-                    <a href="/teachers" class="nav-link">TEACHERS</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/teachers" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">TEACHERS</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/teachers">Teachers Info</a>
+                        <a class="dropdown-item" href="/teaches">Teacher Course Info</a>
+                    </div>
                 </li>
-                <li class="nav-item">
-                    <a href="/students" class="nav-link">STUDENTS</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/students" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">STUDENTS</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/students">Students Info</a>
+                        <a class="dropdown-item" href="/takes">Takes Course Info</a>
+                    </div>
                 </li>
             </ul>
         </div>
